@@ -12,7 +12,7 @@ A K3S Deployment of Bind9 DNS, Fluent-Bit configured for the [output] Azure Log 
   
 
 ## Order of Operations
-* Setup your secrets and deploy the manifest
+* Setup your info & secrets from Azure Entra ID (App Registration) & Azure Monitor (DCE/DCR) and deploy the manifest
 ```console
 kubectl create -f ./bind9-appreg-secrets.yaml
 ```
