@@ -6,6 +6,9 @@ A K3S Deployment of Bind9 DNS, Fluent-Bit configured for the [output] Azure Log 
 * Operational [K3S Node/Cluster](https://www.youtube.com/watch?v=hT2_O2Yd_wE&t=47s)
 * [Fluent Bit: Azure Log Ingestion API](https://docs.fluentbit.io/manual/pipeline/outputs/azure_logs_ingestion)
 * bind9-dns namespace must exist
+  ```console
+  kubectl create ns bind9-dns
+  ```
 * A label of 'bind9' : 'true' must exist on a K3S node for 'nodeSelector'
   ```console
   kubectl label nodes <your-node-name> bind9=true
@@ -20,15 +23,15 @@ A K3S Deployment of Bind9 DNS, Fluent-Bit configured for the [output] Azure Log 
   
 
 ## Order of Operations
-* Setup your info & secrets from Azure Entra ID (App Registration) & Azure Monitor (DCE/DCR) and deploy the manifest
+* Add your info & secrets from Azure Entra ID (App Registration) & Azure Monitor (DCE/DCR) and deploy the manifest
 ```console
 kubectl create -f ./bind9-appreg-secrets.yaml
 ```
-* Deploy the Fluent-Bit Sidecar ConfigMap
+* Modify this manifest & deploy the Fluent-Bit Sidecar ConfigMap
 ```console
 kubectl create -f ./fluentbit-sidecar-cm.yaml
 ```
-* Deploy Bind9 DNS w/ Fluent-Bit Sidecar
+* Modify this manifest & deploy Bind9 DNS w/ Fluent-Bit Sidecar
 ```console
 kubectl create -f ./bind9-fb-sc-deployment.yaml
 ``` 
