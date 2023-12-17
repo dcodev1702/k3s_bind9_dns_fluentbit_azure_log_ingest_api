@@ -31,6 +31,8 @@ A K3S Deployment of Bind9 DNS, Fluent-Bit configured for the [output] Azure Log 
 ```console
 kubectl create -f ./bind9-appreg-secrets.yaml
 ```
+![image](https://github.com/dcodev1702/k3s_bind9_dns_fluentbit_azure_log_ingest_api/assets/32214072/a1a9a7f3-ea1f-4e6c-bbce-ee04ec1ff7d7)
+
 * Modify this manifest & deploy the Fluent-Bit Sidecar ConfigMap
 ```console
 kubectl create -f ./fluentbit-sidecar-cm.yaml
