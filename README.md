@@ -9,6 +9,7 @@ A K3S Deployment of Bind9 DNS, Fluent-Bit configured for the [output] Azure Log 
 * A label of 'bind9' : 'true' must exist on a K3S node for 'nodeSelector'
   ```console
   kubectl label nodes <your-node-name> bind9=true
+  kubectl get nodes --show-labels
   ```
   * This is required for two containers to write/read from the same volume mount set as RWO (Read Write Once)
     * Source: [Longhorn Volumes](https://support.tools/post/fixing-longhorn-volume-issues/#:~:text=Longhorn%20supports%20RWO%20(ReadWriteOnce)%20volumes,only%20have%20a%20few%20options.)
