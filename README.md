@@ -4,6 +4,8 @@ A K3S Deployment of Bind9 DNS, Fluent-Bit configured for the [output] Azure Log 
 ## Pre-Condition
 * [Microsoft Azure Subscription](https://azure.microsoft.com/en-us/free/search/?ef_id=_k_Cj0KCQiAsvWrBhC0ARIsAO4E6f_KQHuZoJWDcf25quxjVXhxQz0NixXwZOXDb38WnIOyANw1wRbw6qwaAs6AEALw_wcB_k_&OCID=AIDcmm5edswduu_SEM__k_Cj0KCQiAsvWrBhC0ARIsAO4E6f_KQHuZoJWDcf25quxjVXhxQz0NixXwZOXDb38WnIOyANw1wRbw6qwaAs6AEALw_wcB_k_&gad_source=1&gclid=Cj0KCQiAsvWrBhC0ARIsAO4E6f_KQHuZoJWDcf25quxjVXhxQz0NixXwZOXDb38WnIOyANw1wRbw6qwaAs6AEALw_wcB)
 * Operational [K3S Node/Cluster](https://www.youtube.com/watch?v=hT2_O2Yd_wE&t=47s)
+  ![image](https://github.com/dcodev1702/k3s_bind9_dns_fluentbit_azure_log_ingest_api/assets/32214072/3d406260-aacb-42f5-8e82-0d2f84c62571)
+
 * [Fluent Bit: Azure Log Ingestion API](https://docs.fluentbit.io/manual/pipeline/outputs/azure_logs_ingestion)
 * bind9-dns namespace must exist
   ```console
