@@ -19,6 +19,8 @@ A K3S Deployment of Bind9 DNS, Fluent-Bit configured for the [output] Azure Log 
   * Both container MUST run on the SAME K3S (Kubernetes) NODE
 * Kubernetes storage (e.g. LongHorn) must exist for K3S node/cluster
   * Volume name: bind9-logs set as RWO
+    ![image](https://github.com/dcodev1702/k3s_bind9_dns_fluentbit_azure_log_ingest_api/assets/32214072/08d03116-ed6e-422f-a6ad-53be4cfd8287)
+
 * K3S Load Balancer must be configured (e.g. KubeVIP)
   
 
