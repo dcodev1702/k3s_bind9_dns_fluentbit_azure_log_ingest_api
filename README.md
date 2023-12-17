@@ -2,6 +2,7 @@
 A K3S Deployment of Bind9 DNS, Fluent-Bit configured for the [output] Azure Log Ingestion API
 
 ## Pre-Condition
+* [Fluent Bit: Azure Log Ingestion API](https://docs.fluentbit.io/manual/pipeline/outputs/azure_logs_ingestion)
 * bind9-dns namespace must exist
 * A label of 'bind9' : 'true' must exist on a K3S node for 'nodeSelector'
   * This is required for two containers to write/read from the same volume mount set as RWO (Read Write Once)
