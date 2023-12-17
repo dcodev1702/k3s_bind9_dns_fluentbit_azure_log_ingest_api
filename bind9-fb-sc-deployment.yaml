@@ -1,0 +1,139 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: bind9-dns-loadbalancer
+  namespace: bind9-dns
+  labels:
+    app: bind9-dns
+    app.kubernetes.io/instance: bind9-dns
+    app.kubernetes.io/name: bind9-dns
+spec:
+  ports:
+  - name: dns-tcp
+    port: 53
+    protocol: TCP
+    targetPort: 53
+  - name: dns-udp
+    port: 53
+    protocol: UDP
+    targetPort: 53
+  - name: 953-tcp
+    port: 953
+    protocol: TCP
+    targetPort: 953
+  selector:
+    app: bind9-dns
+  externalTrafficPolicy: Cluster
+  loadBalancerIP: 192.168.10.60
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bind9-dns
+  namespace: bind9-dns
+  labels:
+    app: bind9-dns
+    app.kubernetes.io/instance: bind9-dns
+    app.kubernetes.io/name: bind9-dns
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bind9-dns
+  template:
+    metadata:
+      labels:
+        app: bind9-dns
+        app.kubernetes.io/name: bind9-dns
+    spec:
+      nodeSelector:
+        bind9: "true"
+      imagePullSecrets:
+      - name: gitlab-container-registry-secret
+      containers:
+      - name: bind9-dns
+        image: digitalkali/bind9-dns:latest
+        #image: 192.168.10.178:5050/k3s/bind9/bind9-dns:latest
+        imagePullPolicy: Always
+        env:
+        - name: BIND9_USER
+          value: root
+        - name: TZ
+          value: UTC
+        - name: FLAG
+          value: "ALL UR DNS ARE BELONG TO US"
+        ports:
+        - containerPort: 53
+          hostPort: 53
+          protocol: TCP
+        - containerPort: 53
+          hostPort: 53
+          protocol: UDP
+        - containerPort: 953
+          hostIP: 127.0.0.1
+          hostPort: 953
+          protocol: TCP
+        volumeMounts:
+        - name: bind9-logs
+          mountPath: /var/log/named
+        resources:
+          limits:
+            cpu: "0.5"
+            memory: "1024Mi"
+          requests:
+            cpu: "0.2"
+            memory: "256Mi"
+      - name: fluent-bit-bind9-dns
+        image: fluent/fluent-bit
+        imagePullPolicy: Always
+        env:
+        - name: bind9_client_app_id
+          valueFrom:
+            secretKeyRef:
+              name: bind9-dns-secrets
+              key: bind9_client_app_id
+        - name: bind9_client_app_fluentbit_secret
+          valueFrom:
+            secretKeyRef:
+              name: bind9-dns-secrets
+              key: bind9_client_app_fluentbit_secret
+        - name: azure_tenant_id
+          valueFrom:
+            secretKeyRef:
+              name: bind9-dns-secrets
+              key: azure_tenant_id
+        - name: bind9_data_collection_endpoint
+          valueFrom:
+            secretKeyRef:
+              name: bind9-dns-secrets
+              key: bind9_data_collection_endpoint
+        - name: bind9_data_collection_rule_id
+          valueFrom:
+            secretKeyRef:
+              name: bind9-dns-secrets
+              key: bind9_data_collection_rule_id
+        - name: FLAG
+          value: "ALL UR BITS ARE SHIPPED TO US"
+        volumeMounts:
+        - name: bind9-logs
+          mountPath: /var/log/named
+          readOnly: true
+        - name: fluent-bit-config
+          mountPath: /fluent-bit/etc/
+          readOnly: true
+        resources:
+          limits:
+            cpu: "1.0"
+            memory: "1024Mi"
+          requests:
+            cpu: "0.4"
+            memory: "512Mi"
+      restartPolicy: Always
+      volumes:
+      - name: bind9-logs
+        persistentVolumeClaim:
+          claimName: bind9-logs
+      - name: fluent-bit-config
+        configMap:
+          name: bind9-fluent-bit-sc-config
