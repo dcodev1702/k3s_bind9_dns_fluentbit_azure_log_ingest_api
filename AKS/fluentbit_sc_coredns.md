@@ -1,3 +1,5 @@
+## FROM CHATGPT-4 
+
 In Azure Kubernetes Service (AKS), CoreDNS is typically pre-installed as part of the managed Kubernetes service. To configure Fluent Bit as a sidecar for log collection within this setup, you need to adapt the approach by ensuring you don’t disrupt the existing CoreDNS deployment managed by AKS. Instead, you can deploy a separate Fluent Bit daemon or sidecar in a way that doesn't interfere with the managed components.
 
 Here's an adapted approach for AKS:
